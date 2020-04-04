@@ -1,0 +1,25 @@
+version: "3"
+services:
+  proxy:
+    build: ./proxy
+    ports:
+      - "8080:8080"
+    links:
+      - "server"
+
+  server:
+    build: ./server
+    volumes:
+      - ./server/:/go/src/github.com/kousuke1201abe/grpc-app/server
+    ports:
+      - "9090:9090"
+    container_name: "server"
+
+  client:
+    stdin_open: true
+    build: ./client
+    volumes:
+      - ./client/src:/client/src
+      - ./client/public:/client/public
+    ports:
+      - "3000:3000"
